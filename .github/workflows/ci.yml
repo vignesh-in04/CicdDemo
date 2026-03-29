@@ -1,0 +1,35 @@
+name: Docker Build an Push
+
+on:
+  push:
+      branches:
+        - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install requirement
+        run: pip install -r requirements.txt
+
+      - name: Run python script
+        run: python app/main.py
+
+      - name: Run tests
+        run: pytest app/
+
+      - name: Build docker images
+        run: | 
+          docker compose -f docker/deployment/app.yml build
+
+      - name: Docker container up
+        run: docker compose -f docker/deployment/app.yml up -d
