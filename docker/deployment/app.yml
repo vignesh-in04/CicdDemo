@@ -5,6 +5,7 @@ services:
     build:
       context: ../..
       dockerfile: docker/Dockerfile
+    image: vigneshin04/cicd-demo:latest
     container_name: backend-container
     ports:
       - "8000:8000"
@@ -20,3 +21,4 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    restart: unless-stopped
