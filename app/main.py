@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import redis
 import os
 
+app = FastAPI()
 redis_host = os.getenv("REDIS_HOST", "localhost")
 
 try:
