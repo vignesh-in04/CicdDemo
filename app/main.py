@@ -2,16 +2,20 @@ from fastapi import FastAPI
 import redis
 import os
 
-app = FastAPI()
+redis_host = os.getenv("REDIS_HOST", "localhost")
 
-# Redis connection
-redis_host = os.getenv("REDIS_HOST", "redis")
-redis_port = int(os.getenv("REDIS_PORT", 6379))
-
-r = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+try:
+    r = redis.Redis(host=redis_host, port=6379, decode_responses=True)
+    r.ping()
+except:
+    r = None
 
 @app.get("/")
 def read_root():
-    r.incr("counter")
-    count = r.get("counter")
+    if r:
+        r.incr("counter")
+        count = r.get("counter")
+    else:
+        count = "no-redis"
+
     return {"message": "Hello from CI/CD 🚀", "visits": count}
