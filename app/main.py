@@ -19,4 +19,4 @@ def read_root():
     else:
         count = "no-redis"
 
-    return {"message": "Hello from CI/CD 🚀", "visits": count}
+    return {"message": "Vanakam 😆 Atheequr and Deephaa. from CI/CD 🚀", "visits": count}
